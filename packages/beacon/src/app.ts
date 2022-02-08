@@ -15,7 +15,7 @@ export class Beacon extends FlockBase {
   blockchain: any;
   debug: boolean;
   constructor (
-    obj: any
+    obj: unknown
   ) {
     super(obj)
     this.blockchain = {}
@@ -37,12 +37,12 @@ export class Beacon extends FlockBase {
       this.send('help string')
     })
 
-    this.emitter.on('echo', async (inobj: any): Promise<void> => {
+    this.emitter.on('echo', async (inobj): Promise<void> => {
       this.send(inobj.data)
     })
 
     this.emitter.on(
-      'block', async (inobj: any) : Promise<void> => {
+      'block', async (inobj) : Promise<void> => {
         let name = inobj.subcmd
         if (name === '' || name === undefined) {
           name = 'root'
@@ -57,7 +57,7 @@ export class Beacon extends FlockBase {
       })
 
     this.emitter.on(
-      'debug', async (inobj: any) : Promise<void> => {
+      'debug', async (inobj) : Promise<void> => {
         if (inobj.data === 'on') {
           this.debug = true
           this.send('debug on')

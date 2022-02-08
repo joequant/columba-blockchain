@@ -38,8 +38,8 @@ describe('Manager', function () {
     })
     let port : string
     it('port', async () => {
-      const r = await cli.send('port ' + beacon)
-      r.forEach((l: any) => {
+      const r = await cli.send(`port ${beacon}`)
+      r.forEach((l: string) => {
         if (l[0] === '3000/tcp') {
           port = l[1].split(':')[1]
         }

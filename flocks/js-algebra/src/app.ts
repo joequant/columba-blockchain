@@ -13,29 +13,29 @@ const myTransports = {
  */
 
 export class JsAlgebra extends FlockBase {
-  constructor (obj: any) {
+  constructor (obj: unknown) {
     super(obj)
     this.logger.add(myTransports.file)
   }
 
   override async initialize (): Promise<void> {
     await super.initialize()
-    this.emitter.on('test', async (inobj: any): Promise<void> => {
+    this.emitter.on('test', async (inobj): Promise<void> => {
       const retval = 2 * parseInt(inobj.data.toString(), 10)
       await this.send(retval)
     })
-    this.emitter.on('eval', async (inobj: any): Promise<void> => {
+    this.emitter.on('eval', async (inobj): Promise<void> => {
       await this.send(Algebrite.eval(inobj.data).toString())
     })
     this.emitter.on(
       'subscribe',
-      async (inobj: any): Promise<void> => {
+      async (inobj): Promise<void> => {
         this.beacon.subscribe(inobj.data)
         this.send(`subscribed to ${inobj.data}`)
       })
     this.emitter.on(
       'unsubscribe',
-      async (inobj: any): Promise<void> => {
+      async (inobj): Promise<void> => {
         this.beacon.unsubscribe(inobj.data)
         this.send(`unsubscribed to ${inobj.data}`)
       })
@@ -48,7 +48,7 @@ export class JsAlgebra extends FlockBase {
     }
     if (data.cmd === 'js-algebra.eval') {
       let result: string
-      let status: number = 0
+      let status = 0
       try {
         result = Algebrite.eval(data.eval).toString()
       } catch (e) {

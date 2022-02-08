@@ -9,7 +9,7 @@ const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })
 }
 
-const execShPromise = require('exec-sh').promise
+import execSh from 'exec-sh'
 
 function testString (s : string) : boolean {
   return /^[A-Za-z0-9/\-:]+$/.test(s)
@@ -52,7 +52,7 @@ export class FlockManager extends FlockBase {
     this.emitter.on(
       'list', async (inobj: any): Promise<void> => {
         try {
-          const out = await execShPromise('podman images', true)
+          const out = await execSh.promise('podman images', true)
           this.send(out.stdout)
         } catch (e : any) {
           this.send(e.stderr)
@@ -62,7 +62,7 @@ export class FlockManager extends FlockBase {
     this.emitter.on(
       'ps', async (inobj: any): Promise<void> => {
         try {
-          const out = await execShPromise('podman ps', true)
+          const out = await execSh.promise('podman ps', true)
           this.send(out.stdout)
         } catch (e : any) {
           this.send(e.stderr)
@@ -91,8 +91,8 @@ export class FlockManager extends FlockBase {
           const portString = out.toString().trim()
           const r = portString.split(/\r?\n/).map((x: string) =>
             x.split(/\s+->\s+/))
-          let conPort: string = ''
-          let pubPort: string = ''
+          let conPort = ''
+          let pubPort = ''
           r.forEach((l: any) => {
             if (l[0] === '3000/tcp') {
               conPort = l[1].split(':')[1]
@@ -142,7 +142,7 @@ export class FlockManager extends FlockBase {
             this.send('invalid image')
           } else {
             const out =
-                  await execShPromise(
+                  await execSh.promise(
                       `podman stop ${s}`
                   )
             this.send(out.stdout)
@@ -167,7 +167,7 @@ export class FlockManager extends FlockBase {
   async stopAll () : Promise<void> {
     Promise.all(Object.keys(this.flockInfo).map(id => {
       this.logger.log('info', 'stopping %s', id)
-      return execShPromise(
+      return execSh.promise(
         `podman stop ${id}`, true
       )
     }))
