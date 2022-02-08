@@ -5,7 +5,7 @@
     "build": "tsc --build ; chmod a+x dist/app.js",
     "build-flock": "buildah unshare ./build-flock.sh",
     "clean": "tsc --build --clean",
-    "lint": "eslint --fix *.ts",
+    "lint": "eslint --fix */*.ts",
     "distclean": "rm -fr *~ node_modules store *.log *-lock.json dist"
   },
   "type": "module",

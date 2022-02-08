@@ -6,7 +6,7 @@
         "build-flock": "buildah unshare ./build-flock.sh",
         "clean": "tsc --build --clean",
         "distclean": "rm -rf *~ *.log node_modules package-lock.json dist",
-        "lint": "eslint --fix *.ts"
+        "lint": "eslint --fix src/*.ts"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
