@@ -16,13 +16,13 @@ The contents of this repository are as follows:
 
 Quickstart
 ----------
-Look at the file quickstart.md to see a demo.
+Look at the file [quickstart.md](quickstart.md) to see a demo.
 
 Flock-cli
 ---------
 Flock cli sends messages to and from a flock.  Messages are of the form
 
-flock-name/command.subcommand arguments
+    flock-name/command.subcommand arguments
 
 Arguments are of JSON5 form, and are parsed into objects from JSON5
 before being sent to the flock.
