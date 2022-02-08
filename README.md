@@ -1,16 +1,16 @@
 # columba-blockchain
-Columba - The blockchain/microservices toolkit
+Columba - The blockchain/microservices toolkit for enterprise and supercomputing
 
 # Install
 
-
-   ./scripts/install-dep.sh
-   npm install
+    ./bin/install-dep.sh
+     npm install
 
 # Running
 
-   dist/flock-start.js
+    dist/flock-start.js
 
-   will bootstrap a simple environment and set up a command line.
-   Look at docs/quickstart.md for a quickstart example
+will bootstrap a simple environment and set up a command line.
+
+Look at [docs/quickstart.md](docs/quickstart.md) for a quickstart example
 
