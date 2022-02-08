@@ -2,12 +2,13 @@
   "name": "columba-blockchain",
   "version": "0.0.1",
   "scripts": {
-    "prepare": "npm run build-flock --workspaces --if-present ; npm run doc",
+    "prepare": "npm run build-flock --workspaces --if-present ; npm run build ; npm run doc",
+    "build": "tsc",
     "test": "npm run test --workspaces --if-present ; mocha test/**/*.ts --exit --require ts-node/register",
     "clean": "npm run clean --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "distclean": "rm -rf node_modules *-lock.json *.log docs/typedoc dist ; npm run distclean --workspaces --if-present",
-    "start": "./bin/flock-start.js",
+    "start": "node ./dist/flock-start.js",
     "doc": "cd docs ; typedoc"
   },
   "include-workspace-root": true,
@@ -20,13 +21,8 @@
     "flocks"
   ],
   "dependencies": {
-    "@msgpack/msgpack": "^2.7.1",
     "columba-sdk": "file:columba-sdk",
-    "json5": "^2.2.0",
-    "manager": "file:packages/manager",
-    "winston": "^3.5.1",
-    "yargs": "^17.3.1",
-    "zeromq": "^6.0.0-beta.6"
+    "manager": "file:packages/manager"
   },
   "devDependencies": {
     "@types/assert": "^1.5.6",
