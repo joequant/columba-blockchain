@@ -7,7 +7,9 @@
     "strict": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "noImplicitAny": true,
+    "noImplicitOverride": true
   },
   "include": ["src/**/*"]
 }

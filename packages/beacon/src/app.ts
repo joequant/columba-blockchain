@@ -12,27 +12,36 @@ import { FlockBase } from 'columba-sdk/js'
  */
 
 export class Beacon extends FlockBase {
-  blockchain: any;
-  debug: boolean;
+  blockchain: Map<string, any>
+  debug: boolean
+  default_name = 'root'
   constructor (
     obj: unknown
   ) {
     super(obj)
-    this.blockchain = {}
+    this.blockchain = new Map<string, any>()
     this.debug = false
   }
 
   private async getBlockchain (name: string) {
-    if (this.blockchain[name] === undefined) {
-      this.blockchain[name] =
-        await new blockchain.AsyncBlockchain({ filename: name })
+    if (this.blockchain.get(name) !== undefined) {
+      this.blockchain.set(
+        name,
+        await new blockchain.AsyncBlockchain(
+          { filename: name }
+        )
+      )
     }
-    return this.blockchain[name]
+    return this.blockchain.get(name)
   }
 
   override async initialize (): Promise<void> {
     await super.initialize()
-    this.blockchain.default = await new blockchain.AsyncBlockchain()
+    this.blockchain.set(
+      this.default_name, await new blockchain.AsyncBlockchain(
+        { filename: this.default_name}
+      )
+    )
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
     })
@@ -45,7 +54,7 @@ export class Beacon extends FlockBase {
       'block', async (inobj) : Promise<void> => {
         let name = inobj.subcmd
         if (name === '' || name === undefined) {
-          name = 'root'
+          name = this.default_name
         }
         const blockchain = await this.getBlockchain(name)
         const { hash: previousHash } = blockchain.latestBlock

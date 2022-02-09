@@ -24,14 +24,14 @@ function testImage (s : string) : boolean {
  */
 
 export class FlockManager extends FlockBase {
-  flockInfo: any
+  flockInfo: Map<string, any>
   dataVolume: string
   constructor (
     obj: any
   ) {
     super(obj)
     this.dataVolume = 'flock-data'
-    this.flockInfo = {}
+    this.flockInfo = new Map<string, any>()
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
     this.logger.add(myTransports.file)
@@ -125,7 +125,7 @@ export class FlockManager extends FlockBase {
           const flockId = out.toString().trim()
           this.send(flockId)
           this.logger.log('info', 'running %s', flockId)
-          this.flockInfo[flockId] = {}
+          this.flockInfo.set(flockId, {})
         } catch (e : any) {
           this.send(e.stderr)
         }
@@ -165,7 +165,7 @@ export class FlockManager extends FlockBase {
   }
 
   async stopAll () : Promise<void> {
-    Promise.all(Object.keys(this.flockInfo).map(id => {
+    Promise.all(Array.from(this.flockInfo.keys()).map(id => {
       this.logger.log('info', 'stopping %s', id)
       return execSh.promise(
         `podman stop ${id}`, true
